@@ -8,6 +8,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import time
+import sys
 
 import model, sample, encoder_sp as encoder
 from load_dataset import load_dataset, Sampler
@@ -202,7 +203,8 @@ def main():
 
                 avg_loss = (avg_loss[0] * avg_coeff + v_loss,
                             avg_loss[1] * avg_coeff + 1.0)
-
+                
+                sys.stdout.write("\033[2K\033[G%s" % s)
                 print(
                     '[{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
                     .format(
