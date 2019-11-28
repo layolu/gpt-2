@@ -205,14 +205,13 @@ def main():
                 avg_loss = (avg_loss[0] * avg_coeff + v_loss,
                             avg_loss[1] * avg_coeff + 1.0)
                 
-                sys.stdout.write("\033[2K\033[G")
                 print(
-                    '[{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
+                    '\033[K[{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
                     .format(
                         counter=counter,
                         time=time.time() - start_time,
                         loss=v_loss,
-                        avg=avg_loss[0] / avg_loss[1]))
+                        avg=avg_loss[0] / avg_loss[1]), end='')
 
                 counter += 1
         except KeyboardInterrupt:
