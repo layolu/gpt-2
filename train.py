@@ -164,7 +164,7 @@ def main():
                 for i in range(min(args.sample_num - index, args.batch_size)):
                     text = enc.decode(out[i])
                     text = '======== SAMPLE {} ========\nContext:\n{}\n\nGenerated:\n{}\n'.format(
-                        index + 1, textwrap.fill(enc.decode(context_tokens), 40), textwrap.fill(text, 40))
+                        index + 1, textwrap.fill(enc.decode(context_tokens), 80), textwrap.fill(text, 80))
                     all_text.append(text)
                     index += 1
             print(text)
