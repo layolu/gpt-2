@@ -167,7 +167,7 @@ def main():
                         index + 1, text)
                     all_text.append(text)
                     index += 1
-            print(textwrap.wrap(text, 40))
+            print(textwrap.fill(text, 40))
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
                     os.path.join(SAMPLE_DIR, args.run_name,
