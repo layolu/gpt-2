@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 import time
 import sys
+import textwrap
 
 import model, sample, encoder_sp as encoder
 from load_dataset import load_dataset, Sampler
@@ -166,7 +167,7 @@ def main():
                         index + 1, text)
                     all_text.append(text)
                     index += 1
-            print(text)
+            print(textwrap.wrap(text, 40))
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
                     os.path.join(SAMPLE_DIR, args.run_name,
@@ -185,8 +186,10 @@ def main():
             avg_coeff = 1 - 1 / args.average_steps
             while True:
                 if counter % args.save_every == 0:
+                    print()
                     save()
                 if counter % args.sample_every == 0:
+                    print()
                     generate_samples()
 
                 if args.accumulate_gradients > 1:
@@ -216,7 +219,7 @@ def main():
 
                 counter += 1
         except KeyboardInterrupt:
-            print('interrupted')
+            print('\ninterrupted')
             save()
 
 
