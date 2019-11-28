@@ -206,7 +206,7 @@ def main():
                             avg_loss[1] * avg_coeff + 1.0)
                 
                 sys.stdout.write(
-                    '\r\033[K{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
+                    '\r\033[K[{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
                     .format(
                         counter=counter,
                         time=time.time() - start_time,
