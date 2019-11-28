@@ -129,6 +129,7 @@ def main():
         print("The model has", total_parameters, "parameters")
 
         print('Training...')
+        print()
 
         counter = 1
         counter_path = os.path.join(CHECKPOINT_DIR, args.run_name, 'counter')
@@ -204,7 +205,7 @@ def main():
                 avg_loss = (avg_loss[0] * avg_coeff + v_loss,
                             avg_loss[1] * avg_coeff + 1.0)
                 
-                sys.stdout.write("\033[2K\033[G%s" % s)
+                sys.stdout.write("\033[2K\033[G")
                 print(
                     '[{counter} | {time:2.2f}] loss={loss:2.4f} avg={avg:2.4f}'
                     .format(
