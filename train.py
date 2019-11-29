@@ -11,6 +11,11 @@ import time
 import sys
 import textwrap
 
+from gtts import gTTS
+from pydub import AudioSegment
+from IPython.display import Audio
+from io import BytesIO
+
 import model, sample, encoder_sp as encoder
 from load_dataset import load_dataset, Sampler
 from accumulate import AccumulatingOptimizer
@@ -37,6 +42,7 @@ parser.add_argument('--sample_num', metavar='N', type=int, default=1, help='Gene
 parser.add_argument('--save_every', metavar='N', type=int, default=1000, help='Write a checkpoint every N steps')
 parser.add_argument('--average_steps', metavar='N', type=int, default=100, help='Average the loss value across N steps')
 parser.add_argument('--average_start', metavar='N', type=float, default=0, help='Set initial average value to prevent lagging behind')
+parser.add_argument('--wrap_length', metavar='N', type=int, default=80, help='Set initial average value to prevent lagging behind')
 
 
 def maketree(path):
@@ -162,12 +168,25 @@ def main():
                     tf_sample,
                     feed_dict={context: args.batch_size * [context_tokens]})
                 for i in range(min(args.sample_num - index, args.batch_size)):
-                    text = enc.decode(out[i])
+                    ctx_text = enc.decode(context_tokens)
+                    gen_text = enc.decode(out[i])
                     text = '======== SAMPLE {} ========\nContext:\n{}\n\nGenerated:\n{}\n'.format(
-                        index + 1, textwrap.fill(enc.decode(context_tokens), 80), textwrap.fill(text, 80))
+                        index + 1, textwrap.fill(ctx_text, args.wrap_length), textwrap.fill(gen_text, args.wrap_length))
                     all_text.append(text)
                     index += 1
             print(text)
+            
+            tts = gTTS(text=text, lang='ja', slow=False)
+            b_mp3 = BytesIO()
+            tts.write_to_fp(b_mp3)
+            b_mp3.seek(0)
+
+            as_wav = AudioSegment.from_mp3(b_mp3)
+            b_wav = BytesIO()
+            as_wav.export(b_wav, format='wav')
+
+            Audio(b_wav.getvalue(), autoplay=True)
+            
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
                     os.path.join(SAMPLE_DIR, args.run_name,
