@@ -176,7 +176,7 @@ def main():
                     index += 1
 
             tts = gTTS(text=text, lang='ja', slow=False)
-            mp3 = tempfile.NamedTemporaryFile()
+            mp3 = tempfile.NamedTemporaryFile(suffix='.mp3')
             tts.write_to_fp(mp3)
             clear_output()
             print(text)         
