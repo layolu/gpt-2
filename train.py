@@ -13,7 +13,7 @@ import textwrap
 
 from gtts import gTTS
 from pydub import AudioSegment
-from IPython.display import Audio
+from IPython.display import Audio, clear_output
 from io import BytesIO
 
 import model, sample, encoder_sp as encoder
@@ -174,6 +174,7 @@ def main():
                         index + 1, textwrap.fill(ctx_text, args.wrap_length), textwrap.fill(gen_text, args.wrap_length))
                     all_text.append(text)
                     index += 1
+            clear_output()
             print(text)
             
             tts = gTTS(text=text, lang='ja', slow=False)
