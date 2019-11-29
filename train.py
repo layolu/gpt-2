@@ -175,7 +175,7 @@ def main():
                     all_text.append(text)
                     index += 1
 
-            tts = gTTS(text=gen_text, lang='ja', slow=False)
+            tts = gTTS(text=gen_text, lang='ja', slow=False, pre_processor_funcs=[lambda x: x.replace('<|endoftext|>', '')])
             mp3 = tempfile.NamedTemporaryFile(suffix='.mp3')
             tts.write_to_fp(mp3)
             clear_output()
