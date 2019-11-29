@@ -169,7 +169,7 @@ def main():
                     feed_dict={context: args.batch_size * [context_tokens]})
                 for i in range(min(args.sample_num - index, args.batch_size)):
                     ctx_text = enc.decode(context_tokens)
-                    gen_text = enc.decode(out[i])
+                    gen_text = enc.decode(out[i][128:])
                     text = '======== SAMPLE {} ========\nContext:\n{}\n\nGenerated:\n{}\n'.format(
                         index + 1, textwrap.fill(ctx_text, args.wrap_length), textwrap.fill(gen_text, args.wrap_length))
                     all_text.append(text)
