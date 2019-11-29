@@ -10,11 +10,11 @@ import tensorflow as tf
 import time
 import sys
 import textwrap
+import tempfile
 
 from gtts import gTTS
 from pydub import AudioSegment
 from IPython.display import Audio, clear_output, display
-from io import BytesIO
 
 import model, sample, encoder_sp as encoder
 from load_dataset import load_dataset, Sampler
@@ -174,19 +174,14 @@ def main():
                         index + 1, textwrap.fill(ctx_text, args.wrap_length), textwrap.fill(gen_text, args.wrap_length))
                     all_text.append(text)
                     index += 1
-            clear_output()
-            print(text)
-            
+
             tts = gTTS(text=text, lang='ja', slow=False)
-            b_mp3 = BytesIO()
-            tts.write_to_fp(b_mp3)
-            b_mp3.seek(0)
-
-            as_wav = AudioSegment.from_mp3(b_mp3)
-            b_wav = BytesIO()
-            as_wav.export(b_wav, format='wav')
-
-            display(Audio(b_wav.getvalue(), autoplay=True))
+            mp3 = tempfile.NamedTemporaryFile()
+            tts.write_to_fp(mp3)
+            clear_output()
+            print(text)         
+            display(Audio(mp3.name, autoplay=True))
+            mp3.close()
             
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
