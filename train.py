@@ -13,7 +13,7 @@ import textwrap
 
 from gtts import gTTS
 from pydub import AudioSegment
-from IPython.display import Audio, clear_output
+from IPython.display import Audio, clear_output, display
 from io import BytesIO
 
 import model, sample, encoder_sp as encoder
@@ -186,7 +186,7 @@ def main():
             b_wav = BytesIO()
             as_wav.export(b_wav, format='wav')
 
-            Audio(b_wav.getvalue(), autoplay=True)
+            display(Audio(b_wav.getvalue(), autoplay=True))
             
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
