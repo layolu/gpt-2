@@ -16,7 +16,8 @@ def sample_model(
     length=None,
     temperature=1,
     top_k=0,
-    top_p=0.0
+    top_p=0.0,
+    start_token='<|endoftext|>'
 ):
     """
     Run the sample_model
@@ -55,7 +56,7 @@ def sample_model(
 
         output = sample.sample_sequence(
             hparams=hparams, length=length,
-            start_token=enc.encoder['<|endoftext|>'],
+            start_token=enc.encode(start_token)[0],
             batch_size=batch_size,
             temperature=temperature, top_k=top_k, top_p=top_p
         )[:, 1:]
