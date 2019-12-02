@@ -16,7 +16,8 @@ def interact_model(
     length=None,
     temperature=1,
     top_k=0,
-    top_p=0.0
+    top_p=0.0,
+    run_name='run1'
 ):
     """
     Interactively run the model
