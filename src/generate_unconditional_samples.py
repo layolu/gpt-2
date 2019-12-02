@@ -6,7 +6,7 @@ import os
 import numpy as np
 import tensorflow as tf
 
-import model, sample, encoder_sp as encoder
+import model, sample, encoder_sp as encoder	
 
 def sample_model(
     model_name='117M',
@@ -16,7 +16,7 @@ def sample_model(
     length=None,
     temperature=1,
     top_k=0,
-    run_name='run1',
+    top_p=0.0
 ):
     """
     Run the sample_model
@@ -36,6 +36,8 @@ def sample_model(
      considered for each step (token), resulting in deterministic completions,
      while 40 means 40 words are considered at each step. 0 (default) is a
      special setting meaning no restrictions. 40 generally is a good value.
+    :top_p=0.0 : Float value controlling diversity. Implements nucleus sampling,
+     overriding top_k if set to a value > 0. A good setting is 0.9.
     """
     enc = encoder.get_encoder(model_name)
     hparams = model.default_hparams()
@@ -53,13 +55,13 @@ def sample_model(
 
         output = sample.sample_sequence(
             hparams=hparams, length=length,
-            start_token=enc.encode('<|n|>')[0],
+            start_token=enc.encoder['<|endoftext|>'],
             batch_size=batch_size,
-            temperature=temperature, top_k=top_k
+            temperature=temperature, top_k=top_k, top_p=top_p
         )[:, 1:]
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name, 'checkpoint/%s' % run_name))
+        ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
         saver.restore(sess, ckpt)
 
         generated = 0
@@ -73,4 +75,3 @@ def sample_model(
 
 if __name__ == '__main__':
     fire.Fire(sample_model)
-
