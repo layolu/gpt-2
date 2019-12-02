@@ -17,6 +17,7 @@ def sample_model(
     temperature=1,
     top_k=0,
     top_p=0.0,
+    run_name='run1',
     start_token='<|endoftext|>'
 ):
     """
