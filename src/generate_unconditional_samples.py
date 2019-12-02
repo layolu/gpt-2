@@ -63,7 +63,7 @@ def sample_model(
         )[:, 1:]
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name))
+        ckpt = tf.train.latest_checkpoint(os.path.join('models', model_name, 'checkpoint/%s' % run_name))
         saver.restore(sess, ckpt)
 
         generated = 0
