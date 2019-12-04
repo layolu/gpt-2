@@ -174,15 +174,17 @@ def main():
                         index + 1, textwrap.fill(ctx_text, args.wrap_length), textwrap.fill(gen_text, args.wrap_length))
                     all_text.append(text)
                     index += 1
-
+            """
             tts = gTTS(text=gen_text, lang='ja', slow=False, pre_processor_funcs=[lambda x: x.replace('<|endoftext|>', '')])
             mp3 = tempfile.NamedTemporaryFile(suffix='.mp3')
             tts.write_to_fp(mp3)
             clear_output()
-            print(text)         
+            """
+            print(text)
+            """
             display(Audio(mp3.name, autoplay=True))
             mp3.close()
-            
+            """
             maketree(os.path.join(SAMPLE_DIR, args.run_name))
             with open(
                     os.path.join(SAMPLE_DIR, args.run_name,
