@@ -12,7 +12,7 @@ import sys
 import textwrap
 import tempfile
 
-from gtts import gTTS
+#from gtts import gTTS
 from pydub import AudioSegment
 from IPython.display import Audio, clear_output, display
 
