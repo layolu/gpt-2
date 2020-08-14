@@ -13,7 +13,7 @@ import textwrap
 import tempfile
 
 #from gtts import gTTS
-from pydub import AudioSegment
+#from pydub import AudioSegment
 from IPython.display import Audio, clear_output, display
 
 import model, sample, encoder_sp as encoder
